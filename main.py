@@ -49,3 +49,9 @@ elif LogIn=='2':
 
 print("Welcome " + UserName)
 
+print("Would you like to:")
+print("1 - Go shopping")
+print("2 - Check your cart")
+print("3 - Check your orders")
+print("4 - Check your account details")
+print("5 - Log out")
