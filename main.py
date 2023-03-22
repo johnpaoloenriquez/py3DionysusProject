@@ -1,3 +1,8 @@
+"""This is the main code where most the functions, subfunctions, etc. will be executed
+when working on a feature, make sure it properly works before adding here
+"""
+
+
 import maskpass
 dbUsername = "john"
 dbPassword = "johndoe123"
