@@ -3,10 +3,10 @@
     - the code should read item prices, item name, item decscription and item id
     - if creating a dynamic menu from excel is not possible then, use lists or numpy arrays instead to display the menu
 """
-import pandas as pd
 import openpyxl
 
-#read excel using 
+#read excel using openpyxl
+# the excel file can be placed in the cloud to make it accessible anywhere, or it can be placed in the same folder as the python file
 dataframe = openpyxl.load_workbook('itemlist.xlsx')
 dataframe1 = dataframe.active
 
@@ -52,19 +52,3 @@ for col in dataframe1.iter_cols(4, 4):
         #print(col[row].value)
         a=col[row].value
         item_description.append(a)
-
-
-print("--------------------")
-print("MENU")
-print("--------------------")
-print("ID \tName\t\t\t\tPrice\t\tDescription")
-for i in range(len(item_id)):
-    print(item_id[i], end='\t')
-    print(item_name[i], end='\t\t\t')
-    print("P"+str(item_price[i]), end='\t\t')
-    print(item_description[i])
-
-#below code is WIP not yet done
-print("Pick the id of the item you wish to buy:")
-id=int(input(""))
-print("quantity:")
