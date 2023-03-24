@@ -9,6 +9,7 @@ features:
 
 """
 #this will be connected with menu.pyimport Menu
+import Menu
 continue_shopping="1"
 cart_items=[]
 item_quantity=[]
