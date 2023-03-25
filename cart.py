@@ -10,7 +10,7 @@ features:
 """
 #this is connected with menu.py
 
-from Menu import Get_Menu
+from menu import Get_Menu
 
 #displays the cart based on cart items and item quantity
 def Cart(cart_items, item_quantity):
