@@ -19,7 +19,6 @@ def SignIn():
         #check if username is present then check the password after
         
         for i in file_read:
-            print(i)
             #Username is not case sensitive, Password is case sensitive
             if "."+Username.lower()+" " in i.lower() and ","+Password+" " in i:
                 UsernameIsPresent = True
@@ -36,16 +35,10 @@ def SignIn():
             exit()
 
 def SignUp():
-    """
-    function that creates a new account and adds it into account.txt
-    and returns the username
-    the function will not accept existing usernames
-    """
     while True:
         UsernameIsTaken = False
         Username=input("Create your username:")
         #read from database if username exists
-        
         file=open("Accounts.txt","r")
         file_read=file.readlines()
         #loop through the database and check if username exists
