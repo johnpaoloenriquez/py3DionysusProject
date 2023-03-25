@@ -10,3 +10,8 @@ it's features include:
  Other Planned Features These features may or may not be added to the final code:
   - save and load cart system, this feature would allow the user to save his cart for later use 
   - proper encryption of accounts, the current accounts are stored in a txt file which is unsafe. this might provide to be difficult so this feature is less likely to be in the final code
+
+
+Modules Needed:
+- openpyxl
+- maskpass
