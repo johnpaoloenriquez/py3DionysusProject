@@ -1,6 +1,6 @@
 from Account import SignIn,SignUp
-from Menu import Get_Menu, Display_Menu
-from Cart import find_cart, Cart
+from menu import Get_Menu, Display_Menu
+from cart import find_cart, Cart
 import sys
 import time
 
@@ -11,12 +11,23 @@ while LogIn!=1 and LogIn!=2:
     print("1 - Login")
     print("2 - Signup")
     #Login or Sign up Part
-    LogIn=int(input(""))
-    if LogIn==1:
-        Username=SignIn()
-    elif LogIn==2:
-        Username=SignUp()
-    else:
+    try:
+        LogIn=int(input(""))
+        if LogIn==1:
+            Username=SignIn()
+        elif LogIn==2:
+            Username=SignUp()
+        else:
+            print("Please enter a valid input")
+            time.sleep(1)
+    except FileNotFoundError:
+        print("File not found")
+        print("Creating new file...")
+        with open("accounts.txt","w") as f:
+            f.write("")
+        print("File created!")
+        print("Please try again")
+    except ValueError:
         print("Please enter a valid input")
         time.sleep(1)
 print("Welcome, "+ Username)
