@@ -11,7 +11,13 @@ it's features include:
   - save and load cart system, this feature would allow the user to save his cart for later use 
   - proper encryption of accounts, the current accounts are stored in a txt file which is unsafe. this might provide to be difficult so this feature is less likely to be in the final code
 
-
+## Important Please INSTALL THE FOLLOWING MODULES BEFORE RUNNING:
 Modules Needed:
 - openpyxl
 - maskpass
+
+How to install?
+1. Open cmd prompt
+2. Type or copy and paste the following:
+pip install openpyxl
+pip install maskpass
