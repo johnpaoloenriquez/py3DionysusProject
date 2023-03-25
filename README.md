@@ -19,7 +19,7 @@ Modules Needed:
 How to install?
 1. Open cmd prompt
 2. Type or copy and paste the following:
-3. 
+
 pip install openpyxl
 
 pip install maskpass
