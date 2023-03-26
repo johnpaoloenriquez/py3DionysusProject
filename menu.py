@@ -1,11 +1,6 @@
-"""Planned system for menu:
-    - the menu will be read from a file like an excel or a txt file
-    - the code should read item prices, item name, item decscription and item id
-    - if creating a dynamic menu from excel is not possible then, use lists or numpy arrays instead to display the menu
-"""
 import openpyxl
 
-#read excel using openpyxl module
+#read excel using 
 dataframe = openpyxl.load_workbook('itemlist.xlsx')
 dataframe1 = dataframe.active
 
@@ -60,3 +55,4 @@ def Display_Menu(item_id, item_name, item_price, item_description):
         print(item_name[i], end='\t\t\t')
         print("P"+str(item_price[i]), end='\t\t')
         print(item_description[i])
+        

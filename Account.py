@@ -1,6 +1,5 @@
+#maskpass module is used for password masking
 import maskpass
-
-
 
 def SignIn():
     '''function that accepts a username and a password
@@ -13,8 +12,8 @@ def SignIn():
         Username = input("Enter your Username: ")
 
         Password = maskpass.askpass(prompt="Password:", mask="*")
-        file=open("Accounts.txt","r")
-        file_read=file.readlines()
+        with open("Accounts.txt","r") as file:
+            file_read=file.readlines()
         #THIS IS NOT DONE
         #check if username is present then check the password after
         
@@ -24,17 +23,17 @@ def SignIn():
                 UsernameIsPresent = True
                 break
         if UsernameIsPresent == True:
-            file.close()
             return Username
         elif attempt >= 0 and attempt < 4:
             print("Invalid Username or Password, Please Try again")
             attempt+=1
-            file.close()
         else:
             print("Too many attempts, Please Try again later")
             exit()
 
 def SignUp():
+    """ffunction that creates
+    """
     while True:
         UsernameIsTaken = False
         Username=input("Create your username:")
@@ -51,6 +50,7 @@ def SignUp():
             file.close()
             continue
         file.close()
+        
         Password = maskpass.askpass(prompt="Create your Password:", mask="*")
         ConfirmPassword = maskpass.askpass(prompt="Confirm your Password:", mask="*")
         if Password == ConfirmPassword:

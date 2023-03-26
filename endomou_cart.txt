@@ -1,0 +1,23 @@
+format:
+item_id	item_quantity
+item_id	item_quantity
+end_of_(name of cart)
+
+rtx4090: 
+0	1	
+2	3	
+4	1	
+
+end_of_rtx4090 
+
+
+
+
+
+
+
+current_cart: 
+1	1	
+
+end_of_current_cart 
+

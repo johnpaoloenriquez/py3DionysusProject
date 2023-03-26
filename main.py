@@ -1,6 +1,7 @@
 from Account import SignIn,SignUp
 from menu import Get_Menu, Display_Menu
-from cart import find_cart, Cart
+from cart import find_cart, checkout, Save_Cart, Delete_Cart, Load_Cart
+from receipts import Load_Transaction, Transaction_List
 import sys
 import time
 
@@ -14,12 +15,13 @@ while LogIn!=1 and LogIn!=2:
     try:
         LogIn=int(input(""))
         if LogIn==1:
-            Username=SignIn()
+            Username=SignIn()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         elif LogIn==2:
             Username=SignUp()
         else:
             print("Please enter a valid input")
             time.sleep(1)
+    #Catch error when file is not found
     except FileNotFoundError:
         print("File not found")
         print("Creating new file...")
@@ -27,6 +29,8 @@ while LogIn!=1 and LogIn!=2:
             f.write("")
         print("File created!")
         print("Please try again")
+        
+    #catch error when user inputs a string instead of an integer
     except ValueError:
         print("Please enter a valid input")
         time.sleep(1)
@@ -47,14 +51,14 @@ while shopping_choice!=5:
         #1 - GO SHOPPING
         
         if shopping_choice==1:
+            
             #Declare variables for the cart
-            cart_items=[]
-            item_quantity=[]
-            cart_total = 0
+            Cart_Items, Item_Quantity = find_cart(Username,"current_cart")
+            Cart_Total=0
             #gets items from the menu
             item_id,item_name,item_price,item_description = Get_Menu()
-    
-    
+            
+            
             #These values make the loops run
             continue_shopping=1
             continue_shopping2=1
@@ -81,127 +85,210 @@ while shopping_choice!=5:
     
                         quantity=int(input("Quantity: "))
         
-                        if item in cart_items:
-                            item_quantity[cart_items.index(item)] += quantity
-                        if quantity!=0 and item not in cart_items:
-                            item_quantity.append(quantity)
-                            cart_items.append(item)
+                        if item in Cart_Items:
+                            Item_Quantity[Cart_Items.index(item)] += quantity
+                        if quantity!=0 and item not in Cart_Items:
+                            Item_Quantity.append(quantity)
+                            Cart_Items.append(item)
         
                         print("\n1 - Continue Shopping")
                         print("2 - View Cart")
                         #MENU ENDS HERE IF USER INPUTS anything other than 1
                         continue_shopping=int(input(""))
+                        
             
                     #catch the error with the code below
                     except:
                         print("Please enter a valid input")
                         time.sleep(1)
-                Cart(cart_items, item_quantity)
-            
-            
-                checkout_choice=0
-                while checkout_choice!=1 and checkout_choice!=2 and checkout_choice!=4:
-                    try:
-                        print("1 - Checkout")
-                        print("2 - Clear Cart")
-                        print("3 - Shop Again")
-                        print("4 - Logout")
-                        checkout_choice=int(input(""))
-        
-                        if checkout_choice==1:
-                            if cart_items==[]:
-                                print("Cannot Checkout with an empty cart!")
-                                break
-                            print("Proceeding to checkout...")
-
-                            #Shipping Details
-                            print("Please enter your name:")
-                            name=input("")
-                            print("Please enter your address:")
-                            address=input("")
-                            print("Please enter your contact number:")
-                            contact=input("")
-                            print("Please enter your email address:")
-                            email=input("")
+                Save_Cart(Username,"current_cart",Cart_Items,Item_Quantity)
+                continue_shopping2=checkout(Username,Cart_Items,Item_Quantity)
                 
-                            #Ask user if they want to save their shipping details
-                            print("Would you like to save your shipping details?")
-                            print("1 - Yes, 2 - No")
-                
-                            #Save shipping details
-                            shipping_details_choice=int(input(""))
-                            #Username is defined on main function
-                            Account_Info=open(Username+".txt","w")
-                            if shipping_details_choice==1:
-                                Account_Info.write(name+" \n")
-                                Account_Info.write(address+" \n")
-                                Account_Info.write(contact+" \n")
-                                Account_Info.write(email+ " \n")
-                                print("Shipping details saved!")
-                            Account_Info.close()
-                            #If user doesn't want to save their shipping details just continue with the code
+                if continue_shopping2!=1:
+                    print("Would you like to shop again?")
+                    continue_shopping2=int(input("1 - Yes\n2 - No\n"))
                     
-                            print("Please enter your payment method:")
-                            payment=input("")
+                if continue_shopping2==1:
+                    continue_shopping=1
                     
-                            print("Thank you for your purchase!")
-                            print("Your order will be delivered to:")
-                            print(name)
-                            print(address)
-                            print(contact)
-                            print(email)
-                            print("Your payment method is:")
-                            print(payment)
-                            print("Your total is P"+str(cart_total))
-                
-                            print("Would you like to shop again?")
-                            continue_shopping2=int(input("1 - Yes\n2 - No\n"))
-                            print("Thank you for shopping with us!")
-                            print("Please come Again")
-
-    
-                        elif checkout_choice==2:
-                            print("Clearing cart...")
-                            cart_items=[]
-                            item_quantity=[]
-                            cart_total = 0
-                            print("Cart cleared!")
-        
-                        elif checkout_choice==3:
-                            print("Going back to shopping...")
-                            continue_shopping=1
-                            break
-                        elif checkout_choice==4:
-                            print("Logging out...")
-                            print("Thank you for shopping with us!")
-                            print("Goodbye!")
-                            #This will exit the program
-                            continue_shopping=0
-                            continue_shopping2=0
-                            shopping_choice=5
-                            sys.exit()
-                        else:
-                            print("Invalid input")
-                            time.sleep(1)
-                    except ValueError:
-                        print("Invalid input")
-                        time.sleep(1)
+                elif continue_shopping2==2:
+                    print("Thank you for shopping with us!")
+                    print("Please come Again")
+                    continue_shopping=0
+                    continue_shopping2=0
+                    shopping_choice=5
+            
         #END OF 1 - GO SHOPPING
 
         #2 - CHECK CART
         elif shopping_choice==2:
-            cart_items, item_quantity=find_cart(Username,"current_cart")
-            Cart(cart_items, item_quantity)
-    
+            Cart_Check=1
+            while Cart_Check==1 or Cart_Check==2:
+                try:
+                    print("Would you like to:")
+                    print("1 - View Current Cart")
+                    print("2 - View list of saved carts")
+                    print("3 - Delete a saved cart")
+                    print("4 - Go back")
+                    Cart_Check=int(input(""))
+                
+                    if Cart_Check==1:
+                        Cart_Name="current_cart"
+                        Cart_Items,Item_Quantity=find_cart(Username,Cart_Name)
+                        if Cart_Items==[] or None:
+                            print("Your Current Cart is empty")
+                            time.sleep(1)
+                            break
+                        try:
+                            checkout(Username,Cart_Items,Item_Quantity)
+                        except:
+                            print("Your cart is empty")
+                            time.sleep(1)
+                    elif Cart_Check==2:
+                        Cart_List=Load_Cart(Username)
+                        if Cart_List==[]:
+                            print("You have no saved carts")
+                            time.sleep(1)
+                            break
+                        view_cart=input("\nEnter the Cart you wish to view: ")
+                        Cart_Name=Cart_List[int(view_cart)-1]
+                        Cart_Items,Item_Quantity=find_cart(Username,Cart_Name)
+                        #break out the loop
+                        Cart_Check=3
+                        
+                    elif Cart_Check==3:
+                        try:
+                            Cart_List=Load_Cart(Username)
+                            if Cart_List==[] or Cart_List==None:
+                                print("You have no saved carts")
+                                time.sleep(1)
+                                break
+                            view_cart=input("\nEnter the Cart you wish to delete: ")
+                            Cart_Name=Cart_List[int(view_cart)-1]
+                            Delete_Cart(Username,Cart_Name)
+                        except:
+                            print("Please enter a valid input")
+                            time.sleep(1)
+                    elif Cart_Check==4:
+                        break
+                    else:
+                        print("Please enter a valid input")
+                        time.sleep(1)
+                        
+                except ValueError:
+                    print("Please enter a valid input")
+                    time.sleep(1)
+                #END OF 2 - CHECK CART
 
         #3 - CHECK PREVIOUS ORDERS
         elif shopping_choice==3:
-            pass
-
+            Transaction_Number=1
+            while Transaction_Number!=0:
+                try:
+                    print("Transaction List:")
+                    Transac_List=Transaction_List(Username)
+                    for i in range(len(Transac_List)):
+                        print(str(i+1)+" - "+Transac_List[i])
+                    print("Enter the transaction number you wish to view:")
+                    Transaction_Number=int(input("Input 0 if you wish to go back\n"))
+                    Transaction=Load_Transaction(Username,Transac_List[Transaction_Number-1])
+                    for i in Transaction:
+                        print(i)
+                except ValueError:
+                    print("Please enter a valid input")
+            
+        #END OF 3 - CHECK PREVIOUS ORDERS
 
         #4 - CHECK ACCOUNT DETAILS
         elif shopping_choice==4:
-            pass
+            Account_Choice=0
+            while Account_Choice!=1 or Account_Choice!=2:
+                try:
+                    name=""
+                    address=""
+                    contact=""
+                    email=""
+                    #Get Account Details from the text file
+                    with open(Username+"_account.txt","r") as f:
+                        account=f.readlines()
+                        for line in account:
+                            if "Name: " in line:
+                                name=line.split(": ")[1]
+                            elif "Address: " in line:
+                                address=line.split(": ")[1]
+                            elif "Contact Number: " in line:
+                                contact=line.split(": ")[1]
+                            elif "Email: " in line:
+                                email=line.split(": ")[1]
+                    if name!="" or address!="" or contact!="" or email!="":
+                        print("Name: "+name)
+                        print("Address: "+address)
+                        print("Contact Number: "+contact)
+                        print("Email: "+email) 
+                    else:
+                        print("No Account Details Found")
+                        
+                        
+                    print("\n Would you like to:")
+                    print("1 - Edit Account Details")
+                    print("2 - Go Back")
+                    Account_Choice=int(input(""))
+                    if Account_Choice==1:
+                        print("Please enter your name: ")
+                        name=input("")
+                        print("Please enter your address: ")
+                        address=input("")
+                        print("Please enter your contact number: ")
+                        contact=input("")
+                        print("Please enter your email address: ")
+                        email=input("")
+                        
+                        with open(Username+"_account.txt","w") as f:
+                            f.writelines("Name: "+name+" \n")
+                            f.writelines("Address: "+address+" \n")
+                            f.writelines("Contact Number: "+contact+" \n")
+                            f.writelines("Email: "+email+ " \n")
+                        print("Shipping details saved!")
+                        time.sleep(1)
+                        break
+                    elif Account_Choice==2:
+                        break
+                        
+                        
+                                
+                                
+                except FileNotFoundError:
+                    print("No Account Details Found")
+                    Account_Choice=int(input("1 - Save Account Details\n2 - Go Back\n"))
+                    
+                    if Account_Choice==1:
+                        print("Please enter your name: ")
+                        name=input("")
+                        print("Please enter your address: ")
+                        address=input("")
+                        print("Please enter your contact number: ")
+                        contact=input("")
+                        print("Please enter your email address: ")
+                        email=input("")
+                        
+                        with open(Username+"_account.txt","w") as f:
+                            f.writelines("Name: "+name+" \n")
+                            f.writelines("Address: "+address+" \n")
+                            f.writelines("Contact Number: "+contact+" \n")
+                            f.writelines("Email: "+email+ " \n")
+                        print("Shipping details saved!")
+                        time.sleep(1)
+                        break
+                    elif Account_Choice==2:
+                        break
+                    else:
+                        print("Please enter a valid input")
+                        time.sleep(1)
+                except ValueError:
+                    print("Please enter a valid input")
+                    time.sleep(1)
+                #END OF 4 - CHECK ACCOUNT DETAILS
+
 
 
         #5 - LOG OUT
@@ -213,6 +300,7 @@ while shopping_choice!=5:
         else:
             print("Please enter a valid input")
             time.sleep(1)
+
     except ValueError:
         print("\nPlease enter a valid input \n")
         time.sleep(1)
