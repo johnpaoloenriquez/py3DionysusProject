@@ -19,7 +19,5 @@ Modules Needed:
 How to install?
 1. Open cmd prompt
 2. Type or copy and paste the following:
-
-pip install openpyxl
-
-pip install maskpass
+ - pip install openpyxl
+ - pip install maskpass
