@@ -2,8 +2,15 @@ from menu import Get_Menu
 #from receipts import Save_Transaction, Transaction_List, Load_Transaction
 import sys
 import time
+import os
 from receipts import Save_Transaction, Load_Transaction, Transaction_List
 #displays the cart based on cart items and item quantity
+def clear():
+    if sys.platform == "win32":
+        os.system("cls")
+    else:
+        os.system("clear")
+        
 
 def Cart(Cart_Items, Item_Quantity):
     item_id,item_name,item_price,item_description = Get_Menu()
@@ -70,7 +77,8 @@ def checkout(Username, Cart_Items, Item_Quantity):
                 print("6 - Shop Again")
                 print("7 - Logout")
                 checkout_choice=int(input(""))
-        
+
+                #1 - Checkout
                 if checkout_choice==1:
                     if Cart_Items==[]:
                         print("Cannot Checkout with an empty cart!")
@@ -173,9 +181,9 @@ def checkout(Username, Cart_Items, Item_Quantity):
                     Save_Transaction(Username, Cart_Items, Item_Quantity)
                     print("You have successfully placed an Order!")
                     return 0
-                    #END OF CHECKOUT
+                #END OF 1 - CHECKOUT
                     
-                    
+                # 2 - SAVE CART
                 elif checkout_choice==2:
                     if Cart_Items==[]:
                         print("Cannot save an empty cart!")
@@ -184,8 +192,9 @@ def checkout(Username, Cart_Items, Item_Quantity):
                     cart_name=input("")
                     Save_Cart(Username,cart_name.lower(),Cart_Items,Item_Quantity)
                     print("Cart saved!")
+                #END OF 2 - SAVE CART
                 
-                
+                #3 - LOAD CART
                 elif checkout_choice==3:
                     Cart_List=Load_Cart(Username)
                     if Cart_List==[]:
@@ -196,21 +205,21 @@ def checkout(Username, Cart_Items, Item_Quantity):
                     Cart_Name=Cart_List[int(view_cart)-1]
                     Cart_Items,Item_Quantity=find_cart(Username,Cart_Name)
                     time.sleep(1)
-                    
+                #END OF 3 - LOAD CART
+                
+                #4 - DELETE CART
                 elif checkout_choice==4:
                     Cart_List=Load_Cart(Username)
                     if Cart_List==[]:
                         print("You have no saved carts")
                         time.sleep(1)
                         break
-                    view_cart=input("\nEnter the Cart you wish to delete: ")
+                    view_cart=input("\nEnter the Cart you wish to delete: Enter 0 to exit")
                     Cart_Name=Cart_List[int(view_cart)-1]
                     Delete_Cart(Username,Cart_Name)
-                    
-                    
-                    
-
-    
+                #END OF 4 - DELETE CART
+                
+                #5 - CLEAR CART
                 elif checkout_choice==5:
                     print("Clearing cart...")
                     Cart_Items=[]
@@ -218,21 +227,24 @@ def checkout(Username, Cart_Items, Item_Quantity):
                     Delete_Cart(Username, "current_cart")
                     Cart_Total = 0
                     print("Cart cleared!")
-        
+                #END OF 5 - CLEAR CART
+                
+                #6 - GO BACK TO SHOPPING
                 elif checkout_choice==6:
                     print("Going back to shopping...")
                     continue_shopping=1
                     continue_shopping2=1
                     break
+                #END OF 6 - GO BACK TO SHOPPING
+                
+                #7 - LOG OUT
                 elif checkout_choice==7:
                     print("Logging out...")
                     print("Thank you for shopping with us!")
                     print("Goodbye!")
                     #This will exit the program
-                    continue_shopping=0
-                    continue_shopping2=0
-                    shopping_choice=5
                     sys.exit()
+                    
                 else:
                     print("Invalid input")
                     time.sleep(1)
@@ -293,7 +305,7 @@ def Load_Cart(Username):
         except FileNotFoundError:
             print("No existing Carts, Please create a cart first!")
             time.sleep(1)
-            break
+            return []
 
         
 def Delete_Cart(Username, Cart_Name):

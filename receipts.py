@@ -16,25 +16,30 @@ def Save_Transaction(Username, Cart_Items, Item_Quantity):
         f.write("---------------------------------------------------------------------\n")
         
 def Load_Transaction(Username, date):
-    print("Loading transaction history")
-    with open(Username.lower()+"_receipts.txt", "r") as f:
-        lines = f.readlines()
-    Begin_Line=0
-    End_Line=0
-    Transaction=[]
+    try:
+        print("Loading transaction history")
+        with open(Username.lower()+"_receipts.txt", "r") as f:
+            lines = f.readlines()
+        Begin_Line=0
+        End_Line=0
+        Transaction=[]
+        for i in range(len(lines)):
+            if date in lines[i]:
+                Begin_Line=i-1
     
-    for i in range(len(lines)):
-        if date in lines[i]:
-            Begin_Line=i-1
-    
-    for i in range(Begin_Line+1, len(lines)):
-        if "-------" in lines[i]:
-            End_Line=i
-            break
+        for i in range(Begin_Line+1, len(lines)):
+            if "-------" in lines[i]:
+                End_Line=i
+                break
         
-    for i in range(Begin_Line, End_Line):
-        Transaction.append(lines[i])
-    return Transaction
+        for i in range(Begin_Line, End_Line):
+            Transaction.append(lines[i])
+        return Transaction
+    except FileNotFoundError:
+        print("Transaction history file does not exist")
+        print("Creating new file for transaction history")
+        with open(Username.lower()+"_receipts.txt", "w") as f:
+            f.writelines("")
 
 def Transaction_List(Username):
     while True:
@@ -49,7 +54,7 @@ def Transaction_List(Username):
             return Transaction_List
         except FileNotFoundError:
             with open(Username.lower()+"_receipts.txt", "w") as f:
-                f.writelines()
+                f.writelines("")
             print("Transaction history file does not exist")
             print("Creating new file for transaction history")
 
@@ -65,3 +70,5 @@ def Transaction_List(Username):
 #Save_Transaction(Username, Cart_Items, Item_Quantity)
 #Transaction=Load_Transaction(Username, "2023-03-26 21:18:28.534556")
 
+with open(r'\Coding\database\endomou_receipts.txt', "w") as f:
+    f.writelines('')

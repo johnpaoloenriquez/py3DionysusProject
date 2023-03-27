@@ -1,10 +1,11 @@
 from Account import SignIn,SignUp
 from menu import Get_Menu, Display_Menu
-from cart import find_cart, checkout, Save_Cart, Delete_Cart, Load_Cart
+from cart import find_cart, checkout, Save_Cart, Delete_Cart, Load_Cart, clear
 from receipts import Load_Transaction, Transaction_List
 import sys
 import time
 
+        
 #main function
 LogIn=0
 while LogIn!=1 and LogIn!=2:
@@ -21,7 +22,8 @@ while LogIn!=1 and LogIn!=2:
         else:
             print("Please enter a valid input")
             time.sleep(1)
-    #Catch error when file is not found
+        clear()
+    #Catch error when file is not found  
     except FileNotFoundError:
         print("File not found")
         print("Creating new file...")
@@ -47,7 +49,7 @@ while shopping_choice!=5:
         print("4 - Check your account details")
         print("5 - Log out")
         shopping_choice=int(input(""))
-        
+        clear()
         #1 - GO SHOPPING
         
         if shopping_choice==1:
@@ -84,13 +86,13 @@ while shopping_choice!=5:
                         print(item_description[item])
     
                         quantity=int(input("Quantity: "))
-        
+                        
                         if item in Cart_Items:
                             Item_Quantity[Cart_Items.index(item)] += quantity
                         if quantity!=0 and item not in Cart_Items:
                             Item_Quantity.append(quantity)
                             Cart_Items.append(item)
-        
+                        clear()
                         print("\n1 - Continue Shopping")
                         print("2 - View Cart")
                         #MENU ENDS HERE IF USER INPUTS anything other than 1
@@ -123,7 +125,7 @@ while shopping_choice!=5:
         #2 - CHECK CART
         elif shopping_choice==2:
             Cart_Check=1
-            while Cart_Check==1 or Cart_Check==2:
+            while Cart_Check==1 or Cart_Check==2 or Cart_Check==3:
                 try:
                     print("Would you like to:")
                     print("1 - View Current Cart")
@@ -140,7 +142,7 @@ while shopping_choice!=5:
                             time.sleep(1)
                             break
                         try:
-                            checkout(Username,Cart_Items,Item_Quantity)
+                            Cart_Check=checkout(Username,Cart_Items,Item_Quantity)
                         except:
                             print("Your cart is empty")
                             time.sleep(1)
@@ -149,26 +151,29 @@ while shopping_choice!=5:
                         if Cart_List==[]:
                             print("You have no saved carts")
                             time.sleep(1)
+                            Cart_Check==0
                             break
+                            
                         view_cart=input("\nEnter the Cart you wish to view: ")
                         Cart_Name=Cart_List[int(view_cart)-1]
                         Cart_Items,Item_Quantity=find_cart(Username,Cart_Name)
                         #break out the loop
                         Cart_Check=3
                         
+                    #3 - DELETE CART
                     elif Cart_Check==3:
                         try:
                             Cart_List=Load_Cart(Username)
                             if Cart_List==[] or Cart_List==None:
-                                print("You have no saved carts")
                                 time.sleep(1)
                                 break
-                            view_cart=input("\nEnter the Cart you wish to delete: ")
+                            view_cart=input("\nEnter the Cart you wish to delete: Enter 0 to exit\n")
                             Cart_Name=Cart_List[int(view_cart)-1]
                             Delete_Cart(Username,Cart_Name)
                         except:
                             print("Please enter a valid input")
                             time.sleep(1)
+            
                     elif Cart_Check==4:
                         break
                     else:
@@ -191,9 +196,13 @@ while shopping_choice!=5:
                         print(str(i+1)+" - "+Transac_List[i])
                     print("Enter the transaction number you wish to view:")
                     Transaction_Number=int(input("Input 0 if you wish to go back\n"))
+                    if Transaction_Number==0:
+                        break
                     Transaction=Load_Transaction(Username,Transac_List[Transaction_Number-1])
+                    
                     for i in Transaction:
                         print(i)
+                    time.sleep(1)
                 except ValueError:
                     print("Please enter a valid input")
             
