@@ -21,3 +21,6 @@ How to install?
 2. Type or copy and paste the following:
  - pip install openpyxl
  - pip install maskpass
+
+How to use?
+1. run main.py in your compiler
