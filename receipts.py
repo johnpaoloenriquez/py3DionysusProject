@@ -69,6 +69,3 @@ def Transaction_List(Username):
 #    Cart_Total += (item_price[Cart_Items[i]]*Item_Quantity[i])
 #Save_Transaction(Username, Cart_Items, Item_Quantity)
 #Transaction=Load_Transaction(Username, "2023-03-26 21:18:28.534556")
-
-with open(r'\Coding\database\endomou_receipts.txt', "w") as f:
-    f.writelines('')
