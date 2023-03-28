@@ -1,7 +1,0 @@
-.Endomou ,123 
-.end ,123 
-.rawr ,123 
-.Eniko ,123 
-.q ,1 
-.endoo ,123 
-.w ,123 
