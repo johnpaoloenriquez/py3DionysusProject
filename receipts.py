@@ -1,19 +1,25 @@
 import datetime
 from menu import Get_Menu
 
-def Save_Transaction(Username, Cart_Items, Item_Quantity):
+def Save_Transaction(Username, Cart_Items, Item_Quantity, name, address, contact, email, payment):
     item_id, item_name, item_price, Item_Description = Get_Menu()
     Cart_Total=0
     for i in range(len(Cart_Items)):
         Cart_Total += (item_price[Cart_Items[i]]*Item_Quantity[i])
     with open(Username.lower()+"_receipts.txt", "a") as f:
-        f.write("\n---------------------------------------------------------------------")
-        f.write("\nDate: "+str(datetime.datetime.now())+"\n")
-        f.write("ID \tName\t\t\t\tPrice\t\tQuantity\n")
+        f.write("\n------------------------------------------------------------------------------------------------")
+        f.write("\nDate: "+str(datetime.datetime.now())+"")
+        f.write("\nID \t"+"Name".ljust(63)+"Price\t\tQuantity")
         for i in range(len(Cart_Items)):
-            f.writelines(str(item_id[Cart_Items[i]])+"\t"+item_name[Cart_Items[i]]+"\t\t\t"+str(item_price[Cart_Items[i]])+"\t\t"+str(Item_Quantity[i])+"\n")
+            f.writelines("\n"+str(item_id[Cart_Items[i]])+"\t"+item_name[Cart_Items[i]].ljust(63)+""+str(item_price[Cart_Items[i]])+"\t\t"+str(Item_Quantity[i])+"\n")
         f.write("Total: P"+str(Cart_Total)+"\n")
-        f.write("---------------------------------------------------------------------\n")
+        f.writelines("\nShipping Details:\n")
+        f.writelines("Name: "+name)
+        f.writelines("Address: "+address)
+        f.writelines("Contact: "+contact)
+        f.writelines("Email: "+email)
+        f.writelines("Payment Method: "+payment)
+        f.write("\n------------------------------------------------------------------------------------------------\n")
         
 def Load_Transaction(Username, date):
     try:

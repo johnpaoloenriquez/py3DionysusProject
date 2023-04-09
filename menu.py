@@ -49,10 +49,9 @@ def Display_Menu(item_id, item_name, item_price, item_description):
     print("---------------------------------------------------------------------")
     print("\t\t\t\tMENU")
     print("---------------------------------------------------------------------")
-    print("ID \tName\t\t\t\tPrice\t\tDescription")
+    print("ID \tName\t\t\t\t\t\t\t\tPrice\t\t")
     for i in range(len(item_id)):
         print(item_id[i], end='\t')
-        print(item_name[i], end='\t\t\t')
-        print("P"+str(item_price[i]), end='\t\t')
-        print(item_description[i])
+        print(item_name[i].ljust(63), end='')
+        print("P"+str(item_price[i])) 
         
