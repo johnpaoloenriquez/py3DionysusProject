@@ -11,14 +11,14 @@ def Save_Transaction(Username, Cart_Items, Item_Quantity, name, address, contact
         f.write("\nDate: "+str(datetime.datetime.now())+"")
         f.write("\nID \t"+"Name".ljust(63)+"Price\t\tQuantity")
         for i in range(len(Cart_Items)):
-            f.writelines("\n"+str(item_id[Cart_Items[i]])+"\t"+item_name[Cart_Items[i]].ljust(63)+""+str(item_price[Cart_Items[i]])+"\t\t"+str(Item_Quantity[i])+"\n")
-        f.write("Total: P"+str(Cart_Total)+"\n")
+            f.write("\n"+str(item_id[Cart_Items[i]])+"\t"+item_name[Cart_Items[i]].ljust(63)+""+str(item_price[Cart_Items[i]])+"\t\t"+str(Item_Quantity[i]))
+        f.write("\nTotal: P"+str(Cart_Total)+"\n")
         f.writelines("\nShipping Details:\n")
-        f.writelines("Name: "+name)
-        f.writelines("Address: "+address)
-        f.writelines("Contact: "+contact)
-        f.writelines("Email: "+email)
-        f.writelines("Payment Method: "+payment)
+        f.write("Name: "+name)
+        f.write("Address: "+address)
+        f.write("Contact: "+contact)
+        f.write("Email: "+email)
+        f.write("Payment Method: "+payment)
         f.write("\n------------------------------------------------------------------------------------------------\n")
         
 def Load_Transaction(Username, date):

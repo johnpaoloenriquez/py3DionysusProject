@@ -118,7 +118,7 @@ while shopping_choice!=9:
         
         #3 - CHECKOUT
         elif shopping_choice==3:
-            checkout(Username,Cart_Items,Item_Quantity, Cart_Total)
+            Cart_Items,Item_Quantity,Cart_Total=checkout(Username,Cart_Items,Item_Quantity, Cart_Total)
             time.sleep(1)
 
         #4 - SAVE CART
