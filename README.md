@@ -11,8 +11,10 @@ it's features include:
   - save and load cart system, this feature would allow the user to save his cart for later use 
   - proper encryption of accounts, the current accounts are stored in a txt file which is unsafe. this might provide to be difficult so this feature is less likely to be in the final code
 
-PROJECT PRESENTATION LINK:
+
+# PROJECT PRESENTATION LINK:
 https://drive.google.com/file/d/1u132ZMNvDyytUvzpMQQJJFcQvoSrLFCR/view?usp=share_link
+
 
 
 
